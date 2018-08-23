@@ -11,6 +11,8 @@ Parameters for crf-nltk.py:
 * --model_path
 
       python crf-nltk.py --train --model_path $PATH_TO_MODEL
+      
+      python crf-nltk.py --test --model_path $PATH_TO_MODEL
 
 ## Seq2seq
 
