@@ -8,7 +8,7 @@ Parameters for crf-nltk.py:
 
 * --model_path
 
-     Examples : python crf-nltk.py --train --model_path $PATH_TO_MODEL
+      python crf-nltk.py --train --model_path $PATH_TO_MODEL
 
 ## Deep Learning
 
