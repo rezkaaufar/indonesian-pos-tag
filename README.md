@@ -2,6 +2,8 @@
 
 ## CRF 
 
+CRF is implemented using crfsuite from scikit-learn
+
 Parameters for crf-nltk.py:
 
 * --train or --test
@@ -10,7 +12,9 @@ Parameters for crf-nltk.py:
 
       python crf-nltk.py --train --model_path $PATH_TO_MODEL
 
-## Deep Learning
+## Seq2seq
+
+Seq2seq implementation is borrowed from IBM-seq2seq-pytorch
 
 Sample usage for seq2seq.py:
 
