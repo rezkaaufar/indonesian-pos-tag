@@ -14,7 +14,7 @@ Parameters for crf-nltk.py:
 
 ## Seq2seq
 
-Seq2seq implementation is borrowed from IBM-seq2seq-pytorch
+Seq2seq implementation is built on top of IBM-seq2seq-pytorch library.
 
 Sample usage for seq2seq.py:
 
