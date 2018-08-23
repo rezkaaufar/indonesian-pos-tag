@@ -25,5 +25,9 @@ resuming from the latest checkpoint of the experiment
 resuming from a specific checkpoint
       
       python examples/sample.py --train_path $TRAIN_PATH --dev_path $DEV_PATH --expt_dir $EXPT_PATH --load_checkpoint $CHECKPOINT_DIR
+      
+Sample usage for evaluate.py:
+
+      python --test_data dataset/test.txt --checkpoint_path experiment/checkpoints/2018_08_22_17_04_19
 
 
