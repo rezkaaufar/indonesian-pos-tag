@@ -1,5 +1,11 @@
 # indonesian-pos-tag
 
+## Dataset split
+
+Running this script will generate the split for the dataset
+
+      python data_generate.py
+
 ## CRF 
 
 CRF is implemented using crfsuite from scikit-learn
