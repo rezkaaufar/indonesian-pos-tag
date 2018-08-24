@@ -145,7 +145,7 @@ else:
     labels,
     key=lambda name: (name[1:], name[0])
   )
-  print_confusion_matrix(analysis, sorted_labels)
+  print_confusion_matrix(analysis, sorted_labels, "crf")
 
   # show statistics
   y_pred = model.predict(X_test)

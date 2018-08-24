@@ -116,7 +116,7 @@ if opt.load_checkpoint is not None:
         for a, b, c in zip(sentence, tags, tags_pred):
           pr_str += a + "/" + b + "/" + c + " "
         #print(pr_str[:-1])
-    print_confusion_matrix(analysis, output_vocab)
+    print_confusion_matrix(analysis, output_vocab, "seq2seq")
 
 else:
     # Prepare dataset

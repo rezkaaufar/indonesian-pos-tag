@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def print_confusion_matrix(confusion_matrix, class_names, figsize=(10, 7), fontsize=14):
+def print_confusion_matrix(confusion_matrix, class_names, names, figsize=(10, 7), fontsize=14):
   """Prints a confusion matrix, as returned by sklearn.metrics.confusion_matrix, as a heatmap.
 
   Arguments
@@ -34,4 +34,4 @@ def print_confusion_matrix(confusion_matrix, class_names, figsize=(10, 7), fonts
   heatmap.xaxis.set_ticklabels(heatmap.xaxis.get_ticklabels(), rotation=90, ha='right', fontsize=fontsize)
   plt.ylabel('True label')
   plt.xlabel('Predicted label')
-  plt.savefig('confusion_matrix.png')
+  plt.savefig('confusion_matrix_' + names + '.png')
