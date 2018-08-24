@@ -152,7 +152,7 @@ else:
   a = metrics.flat_classification_report(
     y_test, y_pred, labels=sorted_labels, digits=3
   )
-  # print(a)
+  print(a)
 
   # # confusion matrix
   # y_test_flat = [item for sublist in y_test for item in sublist]
