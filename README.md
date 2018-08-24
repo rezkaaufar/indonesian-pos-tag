@@ -36,7 +36,7 @@ perform labeling with the chosen checkpoint and create the confusion matrix
       
       python seq2seq.py --dev_path $DEV_PATH --expt_dir $EXPT_PATH --load_checkpoint $CHECKPOINT_DIR
       
-Sample usage for evaluate.py:
+Sample usage for evaluate.py (evaluating the precision, recall, and f1-score):
 
       python evaluate.py --test_data dataset/test.txt --checkpoint_path experiment/checkpoints/2018_08_22_17_04_19
 
