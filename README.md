@@ -10,7 +10,11 @@ Parameters for crf-nltk.py:
 
 * --model_path
 
+training
+
       python crf-nltk.py --train --model_path $PATH_TO_MODEL
+      
+evaluating
       
       python crf-nltk.py --test --model_path $PATH_TO_MODEL
 
@@ -30,7 +34,7 @@ resuming from the latest checkpoint of the experiment
 
 perform labeling with the chosen checkpoint and create the confusion matrix
       
-      python examples/sample.py --train_path $TRAIN_PATH --dev_path $DEV_PATH --expt_dir $EXPT_PATH --load_checkpoint $CHECKPOINT_DIR
+      python examples/sample.py --dev_path $DEV_PATH --expt_dir $EXPT_PATH --load_checkpoint $CHECKPOINT_DIR
       
 Sample usage for evaluate.py:
 
