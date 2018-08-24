@@ -34,7 +34,7 @@ resuming from the latest checkpoint of the experiment
 
 perform labeling with the chosen checkpoint and create the confusion matrix
       
-      python examples/sample.py --dev_path $DEV_PATH --expt_dir $EXPT_PATH --load_checkpoint $CHECKPOINT_DIR
+      python examples/seq2seq.py --dev_path $DEV_PATH --expt_dir $EXPT_PATH --load_checkpoint $CHECKPOINT_DIR
       
 Sample usage for evaluate.py:
 
