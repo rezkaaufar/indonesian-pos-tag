@@ -1,6 +1,14 @@
 import numpy as np
 from numpy import random
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--split', dest='sog', action='store_true')
+parser.add_argument('--generate', dest='sog', action='store_false')
+parser.set_defaults(sog=False)
+
+opt = parser.parse_args()
+
 # save index for train and test
 def split(path):
   tokens = []
@@ -57,4 +65,7 @@ def generate_data_seq2seq(path, train_write_path, test_write_path):
         labels += label + " "
       f.write(words[:-1] + "\t" + labels[:-1] + "\n")
 
-generate_data_seq2seq("./dataset/Indonesian_Manually_Tagged_Corpus.tsv", "./dataset/train.txt", "./dataset/test.txt")
+if opt.sog:
+  split("./dataset/Indonesian_Manually_Tagged_Corpus.tsv")
+else:
+  generate_data_seq2seq("./dataset/Indonesian_Manually_Tagged_Corpus.tsv", "./dataset/train.txt", "./dataset/test.txt")
