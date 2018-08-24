@@ -82,11 +82,13 @@ for key in totals:
   f1 = 2 * (precision * recall) / (precision + recall)
   f1_tot += f1
   # print(key + " precision: " + str(precision) + " recall: " + str(recall) + " f1: " + str(f1))
-  print(key + " & " + str(precision) + " & " + str(recall) + " & " + str(f1) + " \\\\")
+  print(key + " & " + str("{0:.3f}".format(round(precision,2))) + " & " + str("{0:.3f}".format(round(recall,2)))
+        + " & " + str("{0:.3f}".format(round(f1,2))) + " \\\\")
 # print("Total precision: " + str(prec_tot / len(totals)) + " recall: " + str(rec_tot / len(totals)) +
 #       " f1: " + str(f1_tot/ len(totals)))
-print("Total & " + str(prec_tot / len(totals)) + " & " + str(rec_tot / len(totals)) +
-      " & " + str(f1_tot/ len(totals)) + " \\\\")
+print("Total & " + str("{0:.3f}".format(round(prec_tot / len(totals),2))) + " & "
+      + str("{0:.3f}".format(round(rec_tot / len(totals),2))) +
+      " & " + str("{0:.3f}".format(round(f1_tot/ len(totals),2))) + " \\\\")
 # total_loss, log_msg, _ = SupervisedTrainer.print_eval(losses, metrics, 0)
 #
 # print(log_msg)

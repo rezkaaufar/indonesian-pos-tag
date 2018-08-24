@@ -7,9 +7,7 @@ def print_confusion_matrix(confusion_matrix, class_names, figsize=(10, 7), fonts
 
   Arguments
   ---------
-  confusion_matrix: numpy.ndarray
-      The numpy.ndarray object returned from a call to sklearn.metrics.confusion_matrix.
-      Similarly constructed ndarrays can also be used.
+  confusion_matrix: dictionary
   class_names: list
       An ordered list of class names, in the order they index the given confusion matrix.
   figsize: tuple
@@ -24,15 +22,16 @@ def print_confusion_matrix(confusion_matrix, class_names, figsize=(10, 7), fonts
       The resulting confusion matrix figure
   """
   df_cm = pd.DataFrame(
-    confusion_matrix, index=class_names, columns=class_names,
+    confusion_matrix#, index=class_names, columns=class_names,
   )
+  df_cm = df_cm.fillna(0).astype(int)
   fig = plt.figure(figsize=figsize)
   try:
     heatmap = sns.heatmap(df_cm, annot=True, fmt="d")
   except ValueError:
     raise ValueError("Confusion matrix values must be integers.")
   heatmap.yaxis.set_ticklabels(heatmap.yaxis.get_ticklabels(), rotation=0, ha='right', fontsize=fontsize)
-  heatmap.xaxis.set_ticklabels(heatmap.xaxis.get_ticklabels(), rotation=45, ha='right', fontsize=fontsize)
+  heatmap.xaxis.set_ticklabels(heatmap.xaxis.get_ticklabels(), rotation=90, ha='right', fontsize=fontsize)
   plt.ylabel('True label')
   plt.xlabel('Predicted label')
   plt.savefig('confusion_matrix.png')

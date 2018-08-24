@@ -11,6 +11,8 @@ from sklearn_crfsuite import metrics
 import argparse
 from sklearn.metrics import confusion_matrix
 from helper import print_confusion_matrix
+import collections
+import pandas as pd
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--train', dest='train', action='store_true')
@@ -68,12 +70,12 @@ def features(sentence, index):
     'suffix-2': sentence[index][-2:],
     'suffix-3': sentence[index][-3:],
     # neighboring words
-    # 'prev_word': '' if index == 0 else sentence[index - 1],
-    # 'next_word': '' if index == len(sentence) - 1 else sentence[index + 1],
+    'prev_word': '' if index == 0 else sentence[index - 1],
+    'next_word': '' if index == len(sentence) - 1 else sentence[index + 1],
     # word features 2
-    # 'has_hyphen': '-' in sentence[index],
-    # 'is_numeric': sentence[index].isdigit(),
-    # 'capitals_inside': sentence[index][1:].lower() != sentence[index][1:]
+    'has_hyphen': '-' in sentence[index],
+    'is_numeric': sentence[index].isdigit(),
+    'capitals_inside': sentence[index][1:].lower() != sentence[index][1:]
   }
 
 def transform_to_dataset(tagged_sentences):
@@ -113,23 +115,48 @@ else:
     sentence_features = [features(sentence, index) for index in range(len(sentence))]
     return list(zip(sentence, model.predict([sentence_features])[0]))
 
-  # print(pos_tag(sentence))
+  analysis = collections.defaultdict(lambda: collections.defaultdict(int))
+  tagss = []
+  tagss_pred = []
+  for elem in test_sentences:
+    sentence = []
+    tags = []
+    for w in elem:
+      sentence.append(w[0])
+      tags.append(w[1])
+    #print(sentence)
+    preds = pos_tag(sentence)
+    tags_pred = [x[1] for x in preds]
+    check = False
+    for a, b in zip(tags, tags_pred):
+      analysis[a][b] += 1
+      if a != b:
+        check = True
+    tagss.append(tags)
+    tagss_pred.append(tags_pred)
+    if check:
+      pr_str = ""
+      for a, b, c in zip(sentence, tags, tags_pred):
+        pr_str += a + "/" + b + "/" + c + " "
+      #print(pr_str[:-1])
 
-  # show statistics
-  y_pred = model.predict(X_test)
   labels = list(model.classes_)
   sorted_labels = sorted(
     labels,
     key=lambda name: (name[1:], name[0])
   )
+  print_confusion_matrix(analysis, sorted_labels)
+
+  # show statistics
+  y_pred = model.predict(X_test)
   a = metrics.flat_classification_report(
     y_test, y_pred, labels=sorted_labels, digits=3
   )
-  print(a)
+  # print(a)
 
-  # confusion matrix
-  y_test_flat = [item for sublist in y_test for item in sublist]
-  y_pred_flat = [item for sublist in y_pred for item in sublist]
-  cm = confusion_matrix(y_test_flat, y_pred_flat)
-  #print(sorted_labels)
-  print_confusion_matrix(cm, sorted_labels)
+  # # confusion matrix
+  # y_test_flat = [item for sublist in y_test for item in sublist]
+  # y_pred_flat = [item for sublist in y_pred for item in sublist]
+  # cm = confusion_matrix(y_test_flat, y_pred_flat)
+  # #print(sorted_labels)
+  # print_confusion_matrix(cm, sorted_labels)

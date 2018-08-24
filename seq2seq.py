@@ -17,6 +17,8 @@ from seq2seq.util.checkpoint import Checkpoint
 
 from sklearn.metrics import precision_recall_fscore_support
 import numpy as np
+import collections
+from helper import print_confusion_matrix
 
 try:
     raw_input          # Python 2
@@ -60,6 +62,62 @@ if opt.load_checkpoint is not None:
     seq2seq = checkpoint.model
     input_vocab = checkpoint.input_vocab
     output_vocab = checkpoint.output_vocab
+
+    # test
+    def read_data(path):
+      tokens = []
+      with open(path, "r") as f:
+        elem = []
+        for line in f:
+          ar = line.split("\t")
+          if len(ar) == 1:
+            tokens.append(elem)
+            elem = []
+          else:
+            tok = ar[0]
+            lab = ar[1].replace("\n", "").upper()
+            elem.append((tok, lab))
+      # ind = np.arange(0, len(tokens))
+      # random.shuffle(ind)
+      # shuffled_index = np.array([val for val in ind])
+      # np.savetxt('shuffled_index.txt', shuffled_index, fmt='%d')
+      shuffled_index = np.loadtxt('shuffled_index.txt', dtype=int)
+      tokens = np.array(tokens)[shuffled_index].tolist()
+      return tokens
+
+    tagged_sentences = read_data("./dataset/Indonesian_Manually_Tagged_Corpus.tsv")
+
+    # Split the dataset for training and testing
+    cutoff = int(.80 * len(tagged_sentences))
+    training_sentences = tagged_sentences[:cutoff]
+    test_sentences = tagged_sentences[cutoff:]
+
+    predictor = Predictor(seq2seq, input_vocab, output_vocab)
+    analysis = collections.defaultdict(lambda: collections.defaultdict(int))
+    tagss = []
+    tagss_pred = []
+    for elem in test_sentences:
+      sentence = []
+      tags = []
+      for w in elem:
+        sentence.append(w[0])
+        tags.append(w[1])
+      preds = predictor.predict(sentence)
+      tags_pred = [x for x in preds[:-1]]
+      check = False
+      for a, b in zip(tags, tags_pred):
+        analysis[a][b] += 1
+        if a != b:
+          check = True
+      tagss.append(tags)
+      tagss_pred.append(tags_pred)
+      if check:
+        pr_str = ""
+        for a, b, c in zip(sentence, tags, tags_pred):
+          pr_str += a + "/" + b + "/" + c + " "
+        #print(pr_str[:-1])
+    print_confusion_matrix(analysis, output_vocab)
+
 else:
     # Prepare dataset
     src = SourceField()
@@ -130,8 +188,6 @@ else:
                       optimizer=optimizer,
                       teacher_forcing_ratio=0.5,
                       resume=opt.resume)
-
-# predictor = Predictor(seq2seq, input_vocab, output_vocab)
 
 # while True:
 #     seq_str = raw_input("Type in a source sequence:")
