@@ -2,9 +2,13 @@
 
 ## Dataset split
 
-Running this script will generate the split for the dataset
+generate the split for the dataset
 
-      python data_generate.py
+      python data_generate.py --split
+
+generate the train and test dataset (file generate from --split is required)
+
+      python data_generate.py --generate
 
 ## CRF 
 
